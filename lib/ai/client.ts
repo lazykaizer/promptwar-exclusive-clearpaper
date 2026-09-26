@@ -1,5 +1,16 @@
+/** Primary model identifier for standard analysis operations. */
 export const MODEL = "openai/gpt-oss-120b";
+
+/** Pro model identifier for complex comparison operations. */
 export const MODEL_PRO = "openai/gpt-oss-120b";
+
+/**
+ * Sends a prompt to the Groq inference API and returns the raw text response.
+ * @param prompt - The full prompt string to send as a user message.
+ * @param modelName - The model identifier to use (MODEL or MODEL_PRO).
+ * @returns The raw text content from the model's response.
+ * @throws {Error} If the API key is missing, the request fails, or no text is returned.
+ */
 
 export async function generateText(prompt: string, modelName: string): Promise<string> {
   const apiKey = process.env.GROQ_API_KEY;

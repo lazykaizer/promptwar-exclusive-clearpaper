@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import type { ZodIssue } from "zod";
 import { ChatRequestSchema, ChatAnswerSchema } from "@/lib/schemas";
 import { runAI } from "@/lib/ai/run";
 import { buildChatPrompt } from "@/lib/ai/prompts";
@@ -7,6 +8,12 @@ import { checkRateLimit, getClientIP } from "@/lib/rate-limit";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
+/**
+ * POST /api/chat
+ * Handles grounded Q&A against the uploaded document.
+ * Validates conversation history and returns AI-generated answers
+ * with cited quotes from the source text.
+ */
 export async function POST(request: Request) {
   const ip = getClientIP(request);
   const rateLimit = checkRateLimit(ip);
@@ -34,7 +41,7 @@ export async function POST(request: Request) {
   const parsed = ChatRequestSchema.safeParse(body);
   if (!parsed.success) {
     const errors = parsed.error.issues
-      .map((e: any) => `${e.path.join(".")}: ${e.message}`)
+      .map((e: ZodIssue) => `${e.path.join(".")}: ${e.message}`)
       .join(", ");
     return NextResponse.json(
       { error: `Invalid request: ${errors}` },

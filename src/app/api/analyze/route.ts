@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import type { ZodIssue } from "zod";
 import { AnalyzeRequestSchema, SummarySchema, ClausesResultSchema, ObligationsResultSchema, ActionPlanSchema } from "@/lib/schemas";
 import { runAI } from "@/lib/ai/run";
 import {
@@ -12,6 +13,12 @@ import { checkRateLimit, getClientIP } from "@/lib/rate-limit";
 export const runtime = "nodejs";
 export const maxDuration = 120;
 
+/**
+ * POST /api/analyze
+ * Accepts a legal document text and a section identifier, then runs
+ * AI-powered analysis for the requested section (summary, clauses,
+ * obligations, or action plan).
+ */
 export async function POST(request: Request) {
   const ip = getClientIP(request);
   const rateLimit = checkRateLimit(ip);
@@ -39,7 +46,7 @@ export async function POST(request: Request) {
   const parsed = AnalyzeRequestSchema.safeParse(body);
   if (!parsed.success) {
     const errors = parsed.error.issues
-      .map((e: any) => `${e.path.join(".")}: ${e.message}`)
+      .map((e: ZodIssue) => `${e.path.join(".")}: ${e.message}`)
       .join(", ");
     return NextResponse.json(
       { error: `Invalid request: ${errors}` },
@@ -97,11 +104,12 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ data: result.data });
-  } catch (err) {
-    // removed console.error to avoid crashing Next.js
+  } catch (_err: unknown) {
+    const message = _err instanceof Error ? _err.message : "Unknown error";
+    console.error(`[API ANALYZE] Unexpected error: ${message}`);
     return NextResponse.json(
       { error: "An unexpected error occurred. Please try again." },
-      { status: 200 }
+      { status: 500 }
     );
   }
 }

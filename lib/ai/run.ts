@@ -1,15 +1,23 @@
 import { z, ZodSchema } from "zod";
 import { MODEL, MODEL_PRO, generateText } from "./client";
 
+/** Configuration options for the AI runner. */
 interface RunOptions {
+  /** The full prompt string to send to the model. */
   prompt: string;
+  /** Zod schema used to validate the model's JSON response. */
   schema: ZodSchema;
+  /** Whether to use the pro (more capable) model. Defaults to false. */
   usePro?: boolean;
+  /** Maximum time in ms to wait for a response. Defaults to 90000. */
   timeoutMs?: number;
 }
 
+/** Structured result from the AI runner. */
 interface RunResult<T> {
+  /** Parsed and validated data, or null if an error occurred. */
   data: T | null;
+  /** Error details, or null if the request succeeded. */
   error: { code: string; userMessage: string } | null;
 }
 
@@ -131,6 +139,12 @@ async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/**
+ * Executes an AI inference call with automatic retry, JSON repair,
+ * and Zod schema validation. Retries up to 3 times on transient errors.
+ * @param options - Configuration including prompt, schema, model selection, and timeout.
+ * @returns A RunResult containing either parsed data or a structured error.
+ */
 export async function runAI<T>(options: RunOptions): Promise<RunResult<T>> {
   const { prompt, schema, usePro = false, timeoutMs = 90000 } = options;
   const modelName = usePro ? MODEL_PRO : MODEL;

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import type { ZodIssue } from "zod";
 import { CompareRequestSchema, CompareResultSchema } from "@/lib/schemas";
 import { runAI } from "@/lib/ai/run";
 import { buildComparePrompt } from "@/lib/ai/prompts";
@@ -7,6 +8,11 @@ import { checkRateLimit, getClientIP } from "@/lib/rate-limit";
 export const runtime = "nodejs";
 export const maxDuration = 120;
 
+/**
+ * POST /api/compare
+ * Accepts two document texts and produces a side-by-side comparison
+ * with a verdict, topic-level diffs, and negotiation recommendations.
+ */
 export async function POST(request: Request) {
   const ip = getClientIP(request);
   const rateLimit = checkRateLimit(ip);
@@ -34,7 +40,7 @@ export async function POST(request: Request) {
   const parsed = CompareRequestSchema.safeParse(body);
   if (!parsed.success) {
     const errors = parsed.error.issues
-      .map((e: any) => `${e.path.join(".")}: ${e.message}`)
+      .map((e: ZodIssue) => `${e.path.join(".")}: ${e.message}`)
       .join(", ");
     return NextResponse.json(
       { error: `Invalid request: ${errors}` },
