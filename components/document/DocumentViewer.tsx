@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useEffect, useState, useCallback } from "react";
+import React, { useMemo, useRef, useEffect, useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { Search, ZoomIn, ZoomOut, X } from "lucide-react";
 import { useDocumentStore } from "@/store/useStore";
@@ -17,13 +17,11 @@ interface HighlightRange {
   isActive: boolean;
 }
 
-export function DocumentViewer({ text, className }: DocumentViewerProps) {
+export const DocumentViewer = React.memo(function DocumentViewer({ text, className }: DocumentViewerProps) {
   const { highlights, activeHighlightId, setActiveHighlight } = useDocumentStore();
   const [fontSize, setFontSize] = useState(15);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchActive, setSearchActive] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const activeMarkRef = useRef<HTMLElement | null>(null);
 
   // Build highlight ranges from verified quotes
   const highlightRanges: HighlightRange[] = useMemo(() => {
@@ -159,8 +157,8 @@ export function DocumentViewer({ text, className }: DocumentViewerProps) {
             aria-label="Search in document"
           />
           {searchQuery && (
-            <button onClick={() => setSearchQuery("")} aria-label="Clear search">
-              <X size={12} className="text-[var(--ink-faint)] hover:text-[var(--ink)]" />
+            <button type="button" onClick={() => setSearchQuery("")} aria-label="Clear search">
+              <X size={12} className="text-[var(--ink-faint)] hover:text-[var(--ink)]" aria-hidden="true" />
             </button>
           )}
         </div>
@@ -170,18 +168,20 @@ export function DocumentViewer({ text, className }: DocumentViewerProps) {
             {highlights.filter((h) => h.status !== "unverified").length} highlights
           </p>
           <button
+            type="button"
             onClick={() => setFontSize((s) => Math.max(12, s - 1))}
             className="p-1 rounded hover:bg-[var(--surface-muted)] text-[var(--ink-muted)]"
             aria-label="Decrease font size"
           >
-            <ZoomOut size={14} strokeWidth={1.5} />
+            <ZoomOut size={14} strokeWidth={1.5} aria-hidden="true" />
           </button>
           <button
+            type="button"
             onClick={() => setFontSize((s) => Math.min(20, s + 1))}
             className="p-1 rounded hover:bg-[var(--surface-muted)] text-[var(--ink-muted)]"
             aria-label="Increase font size"
           >
-            <ZoomIn size={14} strokeWidth={1.5} />
+            <ZoomIn size={14} strokeWidth={1.5} aria-hidden="true" />
           </button>
         </div>
       </div>
@@ -234,4 +234,4 @@ export function DocumentViewer({ text, className }: DocumentViewerProps) {
       </div>
     </div>
   );
-}
+});
