@@ -9,7 +9,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Groq](https://img.shields.io/badge/AI-Groq%20Llama%203.2-F55036?logo=meta)](https://groq.com/)
-[![Tests](https://img.shields.io/badge/Tests-19%20Passed-brightgreen?logo=vitest)](./tests/)
+[![Tests](https://img.shields.io/badge/Tests-70%20Passed-brightgreen?logo=vitest)](./tests/)
 [![Cloud Run](https://img.shields.io/badge/Deployed-Google%20Cloud%20Run-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com/run)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
@@ -47,7 +47,7 @@ AI Engine       → Groq Fast Inference (Llama 3.2 90B) · Vision OCR
 Validation      → Zod Schemas · Auto-Retry JSON Correction Loop
 Extraction      → unpdf (text-layer) · Mammoth (DOCX) · Groq Vision (scanned OCR)
 Styling         → CSS Variables Design System · Responsive · Dark Mode Ready
-Testing         → Vitest (19 unit tests across 5 suites)
+Testing         → Vitest (70 unit tests across 5 suites)
 Deployment      → Docker → Google Cloud Run (us-central1)
 Security        → HSTS · CSP · X-Frame-Options · Rate Limiting · Input Sanitization
 ```
@@ -94,7 +94,7 @@ Open [http://localhost:3000](http://localhost:3000) and upload a legal document 
 ## 🧪 Testing
 
 ```bash
-npm run test        # Run all 19 unit tests
+npm run test        # Run all 70 unit tests
 npm run typecheck   # TypeScript strict mode check
 npm run lint        # ESLint static analysis
 npm run build       # Production build verification
@@ -104,11 +104,11 @@ npm run build       # Production build verification
 
 | Suite | Tests | What It Covers |
 |---|---|---|
-| `verify.test.ts` | 10 | Quote verification, fuzzy matching, prompt injection defense |
-| `store.test.ts` | 3 | Zustand state management (extraction, sections, chat) |
-| `schemas.test.ts` | 2 | Zod schema validation for API requests |
-| `extract.test.ts` | 3 | Text normalization pipeline |
-| `rate-limit.test.ts` | 1 | IP-based rate limiting logic |
+| `verify.test.ts` | 10 | Quote verification, fuzzy matching, offset mapping, prompt injection defense |
+| `schemas.test.ts` | 21 | All API request/response schemas, Zod enum validation, catch defaults, type coercions |
+| `store.test.ts` | 20 | Zustand state (extraction, context, sections, chat limits, highlights, checklist, session clear, CompareStore) |
+| `extract.test.ts` | 11 | Text normalization (CRLF, tabs, newlines), paste truncation, edge cases |
+| `rate-limit.test.ts` | 8 | Per-minute blocking, multi-IP isolation, retry-after values, IP extraction from headers |
 
 ---
 
