@@ -83,7 +83,7 @@ async function ocrWithGroq(
 
 // ─── Text normalization ───────────────────────────────────────────────────────
 
-function normalizeText(text: string): string {
+export function normalizeText(text: string): string {
   return text
     .replace(/\r\n/g, "\n")
     .replace(/\r/g, "\n")

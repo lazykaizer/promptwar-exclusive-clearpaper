@@ -1,15 +1,17 @@
 import { describe, it, expect } from 'vitest';
-import { documentContextSchema } from '../lib/schemas';
+import { AnalyzeRequestSchema } from '../lib/schemas';
 
 describe('schemas', () => {
   it('validates correct document context', () => {
     const valid = {
+      text: "hello",
+      section: "summary",
       role: 'Tenant',
       language: 'English',
       jurisdiction: 'India',
       docType: 'Rental Agreement'
     };
-    expect(documentContextSchema.safeParse(valid).success).toBe(true);
+    expect(AnalyzeRequestSchema.safeParse(valid).success).toBe(true);
   });
 
   it('rejects invalid context', () => {
@@ -17,6 +19,6 @@ describe('schemas', () => {
       role: 123,
       language: 'English'
     };
-    expect(documentContextSchema.safeParse(invalid).success).toBe(false);
+    expect(AnalyzeRequestSchema.safeParse(invalid).success).toBe(false);
   });
 });
