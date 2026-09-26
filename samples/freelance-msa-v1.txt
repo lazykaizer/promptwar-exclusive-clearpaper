@@ -1,0 +1,54 @@
+MASTER SERVICES AGREEMENT (Version 1)
+
+This Master Services Agreement ("Agreement") is entered into as of 1st February 2024 between:
+
+CLIENT: DesignHub Technologies Pvt. Ltd., a company incorporated under the Companies Act, 2013, having its registered office at 501, Business Park, Whitefield, Bengaluru - 560066 ("Client")
+
+AND
+
+SERVICE PROVIDER: Ms. Meera Kapoor, a freelance designer operating as an individual professional, residing at 22, Koramangala 4th Block, Bengaluru - 560034 ("Service Provider")
+
+RECITALS
+The Client desires to engage the Service Provider for graphic design and brand identity services, and the Service Provider agrees to provide such services on the terms set forth herein.
+
+1. SERVICES
+The Service Provider shall provide graphic design, brand identity, UI/UX design, and such other design services as may be requested by the Client from time to time ("Services"). The scope of specific projects shall be agreed in separate Statements of Work ("SOW").
+
+2. PAYMENT TERMS
+2.1 The Service Provider shall invoice the Client on a monthly basis or upon completion of a milestone as specified in the SOW.
+2.2 The Client shall make payment within 60 days of receipt of invoice.
+2.3 In the event of any payment dispute, the Client may withhold payment of the disputed amount indefinitely until the dispute is resolved to the Client's satisfaction.
+
+3. INTELLECTUAL PROPERTY
+3.1 All work product, deliverables, designs, concepts, drafts, and any other materials created by the Service Provider in connection with the Services ("Work Product"), whether or not included in the final deliverable, shall be the sole and exclusive property of the Client.
+3.2 The Service Provider hereby irrevocably assigns to the Client all intellectual property rights, including copyrights, in the Work Product, including all preliminary and rejected work.
+3.3 The Service Provider shall not use the Work Product, or any portion thereof, for portfolio, self-promotion, or any other purpose without the prior written consent of the Client.
+3.4 The Service Provider warrants that the Work Product does not infringe any third-party intellectual property rights. In the event of any third-party claim arising from the Work Product, the Service Provider shall indemnify the Client against all losses, damages, costs, and expenses without limitation.
+
+4. LIABILITY
+4.1 The Service Provider's total liability to the Client for any claim arising under or in connection with this Agreement, whether in contract, tort, or otherwise, shall be unlimited.
+4.2 The Service Provider shall be liable for any indirect, consequential, special, or punitive damages arising from any defect in the Services.
+4.3 The Client's liability to the Service Provider shall in all circumstances be limited to fees paid in the preceding 30 days.
+
+5. CONFIDENTIALITY
+5.1 The Service Provider agrees to keep all Client information strictly confidential and shall not disclose any information to any third party without the Client's prior written consent.
+5.2 This obligation shall continue indefinitely after termination of this Agreement.
+
+6. TERMINATION
+6.1 The Client may terminate this Agreement or any SOW at any time for convenience by providing 7 days' written notice.
+6.2 The Service Provider may terminate this Agreement only upon 60 days' written notice and only if the Client has materially breached the Agreement and failed to cure such breach within 30 days of notice.
+6.3 Upon termination by the Client for convenience, the Client shall pay for Services rendered up to the date of termination but shall not be liable for any lost profits or anticipated earnings of the Service Provider.
+
+7. GOVERNING LAW AND DISPUTE RESOLUTION
+This Agreement shall be governed by the laws of India. Any dispute shall be resolved by arbitration in Bengaluru under the Arbitration and Conciliation Act, 1996. The language of arbitration shall be English.
+
+8. ENTIRE AGREEMENT
+This Agreement constitutes the entire agreement between the parties and supersedes all prior negotiations, representations, or agreements.
+
+IN WITNESS WHEREOF, the parties have executed this Agreement as of the date first written above.
+
+CLIENT: DesignHub Technologies Pvt. Ltd.
+Authorised Signatory: _________________ Name: _________________ Designation: _________________
+
+SERVICE PROVIDER: Ms. Meera Kapoor
+Signature: _________________ Date: _________________
