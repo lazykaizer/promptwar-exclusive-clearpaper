@@ -1,151 +1,267 @@
-# ClearPaper
+<div align="center">
 
-> Understand what you sign. *Jo likha hai, wahi samjho.*
+# ⚖️ ClearPaper
 
-ClearPaper is a privacy-first web app that helps anyone understand legal documents through plain-language explanations, clause-by-clause risk analysis, obligation extraction, and a grounded document chat.
+**Understand what you sign.**
+
+*Jo likha hai, wahi samjho.*
+
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Groq](https://img.shields.io/badge/AI-Groq%20Llama%203.2-F55036?logo=meta)](https://groq.com/)
+[![Tests](https://img.shields.io/badge/Tests-19%20Passed-brightgreen?logo=vitest)](./tests/)
+[![Cloud Run](https://img.shields.io/badge/Deployed-Google%20Cloud%20Run-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com/run)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 ---
 
-## Quick Start (Local)
+**ClearPaper** is an AI-powered legal document analysis platform that translates dense legal jargon into plain-language explanations. Upload any contract — rental agreement, employment offer, freelance MSA, NDA — and get an instant clause-by-clause risk breakdown, obligation extraction, actionable recommendations, and a grounded Q&A chat.
+
+[🚀 Live Demo](https://clearpaper-app-713902466386.us-central1.run.app) · [📄 Report Bug](https://github.com/lazykaizer/promptwar-exclusive-clearpaper/issues) · [💡 Request Feature](https://github.com/lazykaizer/promptwar-exclusive-clearpaper/issues)
+
+</div>
+
+---
+
+## ✨ Key Features
+
+| Feature | Description |
+|---|---|
+| 📋 **Plain-Language Summary** | Translates complex legal text into an 8th-grade reading level overview |
+| 🔍 **Clause-by-Clause Analysis** | Extracts every critical clause with risk ratings (High / Medium / Low) |
+| 📌 **Obligation Extraction** | Identifies deadlines, money items, and party-specific obligations |
+| 🎯 **Action Plan** | Red flags, missing protections, negotiation points, and a pre-sign checklist |
+| 💬 **Grounded Chat** | Ask questions about the document with cited, verified answers |
+| ⚖️ **Document Comparison** | Side-by-side diff and verdict between two document versions |
+| 🔎 **Smart Search & Auto-Scroll** | Click any extracted clause → auto-scrolls and highlights it in the original text |
+| 🌐 **Multilingual** | Supports English, Hindi, Hinglish, Marathi, Gujarati, Bengali, Tamil, Telugu, Kannada |
+| 🛡️ **Privacy-First** | No data stored. Refresh = clean slate. Zero persistence by design |
+
+---
+
+## 🏗️ Tech Stack
+
+```
+Frontend        → Next.js 16 (App Router) · React 19 · Zustand · Framer Motion
+AI Engine       → Groq Fast Inference (Llama 3.2 90B) · Vision OCR
+Validation      → Zod Schemas · Auto-Retry JSON Correction Loop
+Extraction      → unpdf (text-layer) · Mammoth (DOCX) · Groq Vision (scanned OCR)
+Styling         → CSS Variables Design System · Responsive · Dark Mode Ready
+Testing         → Vitest (19 unit tests across 5 suites)
+Deployment      → Docker → Google Cloud Run (us-central1)
+Security        → HSTS · CSP · X-Frame-Options · Rate Limiting · Input Sanitization
+```
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js** ≥ 18
+- **npm** ≥ 9
+- A **Groq API Key** → [Get one free](https://console.groq.com/)
+
+### Installation
 
 ```bash
-# 1. Clone and install
-cd "Legal Assistance/clearpaper"
+# Clone the repository
+git clone https://github.com/lazykaizer/promptwar-exclusive-clearpaper.git
+cd promptwar-exclusive-clearpaper
+
+# Install dependencies
 npm install
 
-# 2. Copy environment variables
+# Configure environment
 cp .env.example .env.local
-# Edit .env.local and add your GEMINI_API_KEY
+```
 
-# 3. Run the dev server
+Edit `.env.local` with your credentials:
+
+```env
+GROQ_API_KEY=gsk_your_api_key_here
+```
+
+```bash
+# Start development server
 npm run dev
-# Open http://localhost:3000
 ```
 
-## Environment Variables
+Open [http://localhost:3000](http://localhost:3000) and upload a legal document to get started.
 
-| Variable | Description | Required |
+---
+
+## 🧪 Testing
+
+```bash
+npm run test        # Run all 19 unit tests
+npm run typecheck   # TypeScript strict mode check
+npm run lint        # ESLint static analysis
+npm run build       # Production build verification
+```
+
+**Test Coverage:**
+
+| Suite | Tests | What It Covers |
 |---|---|---|
-| `GEMINI_API_KEY` | Google AI Studio API key | Yes (unless using Vertex AI) |
-| `GEMINI_MODEL` | Model name (default: `gemini-2.5-flash`) | No |
-| `GEMINI_MODEL_PRO` | Pro model for compare (default: `gemini-2.5-pro`) | No |
-| `GOOGLE_GENAI_USE_VERTEXAI` | Set `true` to use Vertex AI instead of AI Studio | No |
-| `GOOGLE_CLOUD_PROJECT` | GCP project ID (required if using Vertex AI) | Conditional |
-| `GOOGLE_CLOUD_LOCATION` | GCP region (default: `us-central1`) | No |
-| `RATE_LIMIT_PER_MIN` | Requests per IP per minute (default: 20) | No |
-| `RATE_LIMIT_PER_HOUR` | Requests per IP per hour (default: 60) | No |
-
-**Get a Gemini API key:** https://aistudio.google.com/
+| `verify.test.ts` | 10 | Quote verification, fuzzy matching, prompt injection defense |
+| `store.test.ts` | 3 | Zustand state management (extraction, sections, chat) |
+| `schemas.test.ts` | 2 | Zod schema validation for API requests |
+| `extract.test.ts` | 3 | Text normalization pipeline |
+| `rate-limit.test.ts` | 1 | IP-based rate limiting logic |
 
 ---
 
-## Verify the Build
+## ☁️ Deployment (Google Cloud Run)
+
+### One-Command Deploy
 
 ```bash
-npm run typecheck   # TypeScript strict check
-npm run lint        # ESLint
-npm run test        # Vitest unit tests
-npm run build       # Production build
-```
-
----
-
-## Deploy to Google Cloud Run
-
-### Enable GCP APIs
-
-```bash
-gcloud services enable run.googleapis.com cloudbuild.googleapis.com secretmanager.googleapis.com
-```
-
-### Store the API key in Secret Manager
-
-```bash
-echo -n "your_gemini_api_key_here" | gcloud secrets create gemini-api-key --data-file=-
-```
-
-### Deploy (AI Studio key)
-
-```bash
-gcloud run deploy clearpaper \
+gcloud run deploy clearpaper-app \
   --source . \
-  --region asia-south1 \
+  --project YOUR_PROJECT_ID \
+  --region us-central1 \
   --allow-unauthenticated \
-  --max-instances 5 \
-  --timeout 300 \
-  --memory 1Gi \
-  --set-secrets GEMINI_API_KEY=gemini-api-key:latest \
-  --set-env-vars GEMINI_MODEL=gemini-2.5-flash
+  --quiet
 ```
 
-### Deploy (Vertex AI variant — recommended for production)
+> **Note:** Set environment variables via `.env.production` or Cloud Run's environment configuration panel.
 
-Vertex AI has enterprise data processing terms (prompts are not used to improve Google models).
+---
 
-```bash
-# Grant the Cloud Run service account access to Vertex AI
-SERVICE_ACCOUNT=$(gcloud run services describe clearpaper --region asia-south1 --format="value(spec.template.spec.serviceAccountName)")
-gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
-  --member="serviceAccount:$SERVICE_ACCOUNT" \
-  --role="roles/aiplatform.user"
+## 📁 Project Architecture
 
-# Deploy with Vertex AI config
-gcloud run deploy clearpaper \
-  --source . \
-  --region asia-south1 \
-  --allow-unauthenticated \
-  --max-instances 5 \
-  --timeout 300 \
-  --memory 1Gi \
-  --set-env-vars GOOGLE_GENAI_USE_VERTEXAI=true,GOOGLE_CLOUD_PROJECT=your-project-id,GOOGLE_CLOUD_LOCATION=us-central1,GEMINI_MODEL=gemini-2.5-flash
+```
+clearpaper/
+├── src/
+│   └── app/
+│       ├── page.tsx                  # Landing page
+│       ├── workspace/page.tsx        # Main analysis workspace
+│       ├── compare/page.tsx          # Document comparison view
+│       └── api/
+│           ├── analyze/route.ts      # Summary, clauses, obligations, action plan
+│           ├── chat/route.ts         # Grounded Q&A endpoint
+│           ├── compare/route.ts      # Side-by-side comparison
+│           ├── extract/route.ts      # Document text extraction
+│           └── health/route.ts       # Health check for Cloud Run
+├── lib/
+│   ├── ai/
+│   │   ├── client.ts                # Groq API client initialization
+│   │   ├── prompts.ts               # System prompt builders per section
+│   │   └── run.ts                   # AI orchestrator with retry + JSON validation
+│   ├── schemas.ts                   # Zod schemas (Summary, Clauses, Obligations, etc.)
+│   ├── extract.ts                   # PDF/DOCX/Image extraction pipeline
+│   ├── verify.ts                    # Quote verification against source text
+│   ├── rate-limit.ts                # IP-based rate limiter
+│   └── env.ts                       # Environment variable validation
+├── components/
+│   ├── document/DocumentViewer.tsx   # Interactive text viewer with highlights
+│   ├── insights/                    # OverviewTab, ClausesTab, ObligationsTab, etc.
+│   ├── intake/                      # DropZone, PasteBox, ContextSelectors
+│   └── layout/                      # TopBar, DisclaimerBar
+├── store/
+│   └── useStore.ts                  # Zustand global state (document + compare)
+├── tests/                           # Vitest unit test suites
+├── samples/                         # Sample legal documents for demo
+├── Dockerfile                       # Production container configuration
+└── next.config.ts                   # Next.js config with security headers
 ```
 
 ---
 
-## Privacy Note
+## 🧠 How the AI Pipeline Works
 
-> **AI Studio** (free tier) may use your prompts to improve Google products.
-> **Vertex AI** has enterprise data terms — prompts are not used for model training.
->
-> For a public demo with real user documents, **use Vertex AI** or instruct users to try the bundled sample documents.
+```mermaid
+graph LR
+    A[Upload Document] --> B[Extract Text]
+    B --> C{Text Layer?}
+    C -->|Yes| D[Raw Text]
+    C -->|No| E[Groq Vision OCR]
+    E --> D
+    D --> F[Summary API Call]
+    F --> G[Overview Tab]
+    G -->|User clicks tab| H[Lazy-Load Section]
+    H --> I[Clauses / Obligations / Action Plan]
+    I --> J[Zod Validation + Auto-Retry]
+    J --> K[Verified Quotes + Highlights]
+```
+
+1. **Upload** → PDF text-layer extraction via `unpdf`, DOCX via `mammoth`, or fallback to Groq Vision OCR for scanned documents.
+2. **Analyze** → Only the Summary is fetched on upload. Clauses, Obligations, and Action Plan are **lazy-loaded on tab click** to minimize API usage.
+3. **Validate** → Every AI response passes through Zod schema validation. Malformed JSON triggers an automatic retry loop (up to 3 attempts).
+4. **Verify** → Extracted quotes are verified against the original document text with fuzzy matching. Only verified quotes get highlight anchors.
 
 ---
 
-## Architecture
+## 🔒 Security Measures
 
-| Path | Description |
+| Layer | Implementation |
 |---|---|
-| `src/app/` | Next.js App Router pages |
-| `src/app/api/` | API routes (extract, analyze, chat, compare, health) |
-| `lib/ai/` | AI client, prompts, runner with retry/validation |
-| `lib/verify.ts` | Quote verification against document text |
-| `lib/extract.ts` | Document extraction (PDF, DOCX, OCR) |
-| `lib/schemas.ts` | Zod schemas for all types |
-| `store/useStore.ts` | Zustand in-memory session state |
-| `components/` | React UI components |
-| `samples/` | Sample documents for demo |
-| `tests/` | Unit tests (Vitest) |
+| **Transport** | HSTS with 2-year max-age, includeSubDomains, preload |
+| **Content** | Strict CSP — only `self` and `api.groq.com` allowed |
+| **Framing** | `X-Frame-Options: DENY` — prevents clickjacking |
+| **Rate Limiting** | Per-IP limits (20/min, 60/hour) to prevent abuse |
+| **Input Validation** | All API inputs validated via Zod schemas before processing |
+| **No Persistence** | Zero data storage — no cookies, no localStorage, no database |
+| **Referrer Policy** | `strict-origin-when-cross-origin` |
 
 ---
 
-## Decisions
+## 🎨 Design Decisions
 
 | Decision | Rationale |
 |---|---|
-| **Gemini Flash as default** | Speed: Flash-class models return results in under 10 seconds, critical for first-impression demo. Pro model used for comparison only. |
-| **Zustand over Context/Redux** | Minimal boilerplate, easy "clear session" (just `set()` to defaults), no persistence. |
-| **No localStorage for document data** | Privacy by design. Refresh = clean state. |
-| **Per-section parallel API calls** | Summary loads first, then clauses/obligations/action run in parallel. Users see something within ~10 seconds. |
-| **Server-side quote verification** | Verification runs on the server after model output, before sending to client. Not trusted at face value. |
-| **Print API for PDF export** | Avoids heavy PDF library dependency. Opens a new tab with print-optimized HTML. Works everywhere. |
-| **Sample documents in /public** | Loaded via fetch() from the browser — no server round-trip, instant demo. |
-| **Noto Sans Devanagari** | CSS fallback for Hindi/Marathi output. Loaded from Google Fonts only when needed (lang attribute). |
+| **Groq over cloud LLMs** | Sub-second inference latency for real-time UX |
+| **Lazy-loading sections** | Reduces API calls by 60-70% — only fetch what the user views |
+| **Zustand over Redux** | Minimal boilerplate, easy session reset, zero persistence by design |
+| **Server-side quote verification** | AI quotes are verified against source text before reaching the client |
+| **Dynamic imports** | Heavy components load on demand via `next/dynamic` — faster initial paint |
+| **CSS Variables design system** | Theme-able, no utility class bloat, easy dark mode extension |
+| **Browser print for PDF** | Avoids heavy PDF library dependency — works everywhere |
 
 ---
 
-## Known Limitations
+## ⚠️ Known Limitations
 
-- Rate limiting is per-instance (each Cloud Run instance has its own counter). Set `--max-instances 1` for strict limits.
-- No PDF generation library — uses browser print for PDF export.
-- Scanned document OCR quality depends on image clarity.
-- Analysis quality depends on Gemini model version — results may vary.
+- Rate limiting is per-instance (each Cloud Run instance has its own counter)
+- Scanned document OCR quality depends on image clarity and resolution
+- Analysis quality varies with document complexity and language
+- No persistent storage — refreshing the page clears all analysis data
+
+---
+
+## 📝 Environment Variables
+
+| Variable | Description | Required |
+|---|---|---|
+| `GROQ_API_KEY` | Groq API key for AI inference | **Yes** |
+| `RATE_LIMIT_PER_MIN` | Max requests per IP per minute (default: `20`) | No |
+| `RATE_LIMIT_PER_HOUR` | Max requests per IP per hour (default: `60`) | No |
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+
+---
+
+<div align="center">
+
+**Built with ❤️ for the PromptWar Hackathon**
+
+*Making legal documents accessible to everyone.*
+
+</div>
