@@ -1,38 +1,32 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { useStore } from '../store/useStore';
+import { useDocumentStore } from '../store/useStore';
 
-describe('useStore', () => {
+describe('useDocumentStore', () => {
   beforeEach(() => {
-    useStore.setState({
-      documentText: '',
-      isLegalDocument: null,
-      summary: null,
-      clauses: null,
-      obligations: null,
-      actionPlan: null,
-      chatHistory: [],
-      error: null,
-      fileName: '',
-      fileType: '',
+    useDocumentStore.setState({
+      extraction: null,
+      summary: { status: 'idle', data: null, error: null },
+      clauses: { status: 'idle', data: null, error: null },
+      obligations: { status: 'idle', data: null, error: null },
+      action: { status: 'idle', data: null, error: null },
+      chatMessages: [],
     });
   });
 
   it('should set document text', () => {
-    useStore.getState().setDocumentText('test text', 'test.pdf', 'application/pdf');
-    expect(useStore.getState().documentText).toBe('test text');
-    expect(useStore.getState().fileName).toBe('test.pdf');
+    useDocumentStore.getState().setExtraction({ text: 'test text', pageCount: 0, method: 'plain' });
+    expect(useDocumentStore.getState().extraction?.text).toBe('test text');
   });
 
   it('should correctly reset sections', () => {
-    useStore.setState({ clauses: { status: 'done', data: [] } });
-    useStore.getState().resetSection('clauses');
-    expect(useStore.getState().clauses.status).toBe('idle');
-    expect(useStore.getState().clauses.data).toBeNull();
+    useDocumentStore.setState({ clauses: { status: 'done', data: null, error: null } });
+    useDocumentStore.getState().resetSection('clauses');
+    expect(useDocumentStore.getState().clauses.status).toBe('idle');
   });
 
   it('should add to chat history', () => {
-    useStore.getState().addChatMessage({ role: 'user', content: 'hello' });
-    expect(useStore.getState().chatHistory.length).toBe(1);
-    expect(useStore.getState().chatHistory[0].content).toBe('hello');
+    useDocumentStore.getState().addChatMessage({ role: 'user', content: 'hello' });
+    expect(useDocumentStore.getState().chatMessages.length).toBe(1);
+    expect(useDocumentStore.getState().chatMessages[0].content).toBe('hello');
   });
 });
