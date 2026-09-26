@@ -38,8 +38,8 @@ export async function POST(request: Request) {
 
   const parsed = AnalyzeRequestSchema.safeParse(body);
   if (!parsed.success) {
-    const errors = parsed.error.errors
-      .map((e) => `${e.path.join(".")}: ${e.message}`)
+    const errors = parsed.error.issues
+      .map((e: any) => `${e.path.join(".")}: ${e.message}`)
       .join(", ");
     return NextResponse.json(
       { error: `Invalid request: ${errors}` },

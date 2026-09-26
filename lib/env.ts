@@ -6,8 +6,8 @@ const envSchema = z.object({
   GEMINI_MODEL_PRO: z.string().min(1).default("gemini-2.5-pro"),
   GOOGLE_GENAI_USE_VERTEXAI: z
     .string()
-    .transform((v) => v === "true")
-    .default("false"),
+    .default("false")
+    .transform((v) => v === "true"),
   GOOGLE_CLOUD_PROJECT: z.string().optional(),
   GOOGLE_CLOUD_LOCATION: z.string().optional().default("us-central1"),
   RATE_LIMIT_PER_MIN: z.coerce.number().default(20),

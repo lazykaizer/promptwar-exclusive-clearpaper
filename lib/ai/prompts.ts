@@ -1,4 +1,4 @@
-import type { Language, Role, Jurisdiction } from "./schemas";
+import type { Language, Role, Jurisdiction } from "../schemas";
 
 // ─── System preamble (shared across all calls) ────────────────────────────────
 

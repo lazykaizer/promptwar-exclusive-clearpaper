@@ -28,8 +28,8 @@ async function extractPDF(
     return { text, pageCount, method: "text-layer" };
   }
 
-  // Scanned PDF: fall back to Gemini OCR
-  const ocrText = await ocrWithGemini(buffer, "application/pdf");
+  // Scanned PDF: fall back to Groq OCR
+  const ocrText = await ocrWithGroq(buffer, "application/pdf");
   return { text: ocrText, pageCount, method: "ocr" };
 }
 
@@ -43,39 +43,42 @@ async function extractDOCX(buffer: ArrayBuffer): Promise<string> {
   return result.value;
 }
 
-// ─── Image OCR via Gemini ─────────────────────────────────────────────────────
+// ─── Image OCR via Groq Vision ─────────────────────────────────────────────────────
 
-async function ocrWithGemini(
+async function ocrWithGroq(
   buffer: ArrayBuffer,
   mimeType: string
 ): Promise<string> {
-  const { getAIClient, MODEL } = await import("./ai/client");
-  const client = getAIClient();
-
   const base64 = Buffer.from(buffer).toString("base64");
+  const dataUrl = `data:${mimeType};base64,${base64}`;
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) throw new Error("Missing GROQ_API_KEY for OCR");
 
-  const response = await client.models.generateContent({
-    model: MODEL,
-    contents: [
-      {
-        role: "user",
-        parts: [
-          {
-            inlineData: {
-              mimeType: mimeType,
-              data: base64,
-            },
-          },
-          {
-            text: "Please transcribe the text in this document faithfully and verbatim. Do not summarize, interpret, or add any commentary. Output only the raw text as it appears in the document.",
-          },
-        ],
-      },
-    ],
-    config: { temperature: 0 },
+  const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: "llama-3.2-90b-vision-preview",
+      messages: [
+        {
+          role: "user",
+          content: [
+            { type: "text", text: "Please transcribe the text in this document faithfully and verbatim. Output only the raw text." },
+            { type: "image_url", image_url: { url: dataUrl } }
+          ]
+        }
+      ],
+      temperature: 0,
+      max_tokens: 4096
+    })
   });
 
-  return response.text ?? "";
+  if (!res.ok) throw new Error(`OCR failed: ${res.status}`);
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content ?? "";
 }
 
 // ─── Text normalization ───────────────────────────────────────────────────────
@@ -146,7 +149,7 @@ export async function extractDocument(
       detectedMime.startsWith("image/") ||
       filename.match(/\.(jpg|jpeg|png|gif|webp)$/i)
     ) {
-      text = await ocrWithGemini(buffer, detectedMime);
+      text = await ocrWithGroq(buffer, detectedMime);
       method = "ocr";
       warnings.push(
         "Text was extracted from an image using AI transcription, which may not be 100% accurate."
